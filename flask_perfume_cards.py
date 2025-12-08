@@ -69,13 +69,13 @@ TEMPLATE = """
         --bg-start: #FCF5EE;
         --bg-mid1: #FFC4C4;
         --bg-mid2: #EE6983;
-        --bg-end: #850E35;
+        --bg-end: #e82565;
         --accent-deep: #DC143C;
         --accent-mid: #F75270;
         --muted: #6b6b7a;
         --navy: #0b2545;
         --card-radius: 12px;
-        --container-max: 1000px;
+        --container-max: 100%;
         --gap: 16px;
       }
 
@@ -103,8 +103,10 @@ TEMPLATE = """
       /* wrapper */
       .page-wrap{
         max-width:var(--container-max);
-        margin:0 auto;
-        padding:14px;
+        width:100%;
+        margin:0;
+        padding:18px 24px;
+        box-sizing:border-box;
       }
 
       /* Header — mobile-first stacked layout */
@@ -152,6 +154,8 @@ TEMPLATE = """
         margin:0;
         color:var(--navy);
         font-weight:700;
+        max-width: 70ch;
+        word-break:break-word;
       }
       .brand-sub{
         margin:0;
@@ -197,9 +201,11 @@ TEMPLATE = """
       /* Grid: single column on small screens, multi on wider */
       .card-grid{
         display:grid;
-        grid-template-columns: 1fr;
+        
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
         gap:var(--gap);
         margin-top:10px;
+        align-items:start;
       }
 
       /* Card */
@@ -295,6 +301,11 @@ TEMPLATE = """
         .btn-view.stretch{display:block}
         .code-row{flex-direction:column;align-items:stretch;gap:8px}
       }
+      /* increase gap on very wide viewports */
+@media (min-width:1400px){
+  .page-wrap{ padding-left: 48px; padding-right: 48px; }
+  .card-grid{ gap: 24px; }
+}
     </style>
   </head>
   <body>
@@ -440,7 +451,7 @@ DETAIL_TEMPLATE = """
         color:var(--navy);
       }
 
-      .container{padding:14px; max-width:900px; margin:0 auto}
+      .container{padding:14px 24px; max-width:100%; margin:0 auto; box-sizing:border-box}
       .card{border-radius:12px}
       .perfume-image{max-width:100%;height:auto;display:block}
       .brand{font-family:'Playfair Display',serif}
@@ -457,7 +468,7 @@ DETAIL_TEMPLATE = """
         <div class="row g-0 align-items-center">
           <div class="col-12 col-md-6 mb-3 mb-md-0 text-center">
             {% if perfume.image_exists %}
-              <img src="{{ url_for('static', filename='images/' + perfume.image) }}" class="perfume-image rounded" alt="{{ perfume.name }}">
+              <img src="{{ url_for('static', filename='images/' + perfume.image) }}" style="position:center" class="perfume-image rounded" alt="{{ perfume.name }}">
             {% else %}
               <div style="height:260px;display:flex;align-items:center;justify-content:center;background:#FFF8F5;border-radius:12px;">
                 <svg width="140" height="180" viewBox="0 0 120 180" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
